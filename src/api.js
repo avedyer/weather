@@ -1,28 +1,36 @@
-import { toUpper } from "lodash";
-
 const key = 'ef5127c2d2f14fe834463003fb26ca93';
 let metric = true;
 
+
 function parseLocation (input) {
     //TODO parse form input into format useable for API
-    let location = input;
-    return location
+    let location = input.trim();
+    location = input.replace(' ', '+')
+
+    let firstFive = location.substring(0, 5);
+     if (/^\d+$/.test(firstFive)) {
+         return firstFive               //zip code return
+    }
+
+    return location                        //formatted string return
 }
 
-async function fetchWeather(location, variable) {
+async function fetchWeather(input) {
     //TODO return current data
+
+    let location = parseLocation(input);
+
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`
     const response = await fetch(url, {mode: 'cors'});
     const data = await response.json();
 
-    variable = translateData(data);
     return translateData(data);
 }
 
 function translateData(data) {
 
     let name = data.name;
-    let main = toUpper(data.weather[0].description);
+    let main = data.weather[0].description;
     let humidity = data.main.humidity;
     let temp, min, max, feels, wind;
 
@@ -73,9 +81,14 @@ function toKph(speed) {
     return Math.round(speed * 3.6)
 }
 
+function toggleUnits() {
+    metric = !metric
+}
+
 export {
     parseLocation,
     translateData,
     fetchWeather,
+    toggleUnits,
     Weather
 };
