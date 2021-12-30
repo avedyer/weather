@@ -1,4 +1,3 @@
-import { load } from 'signal-exit';
 import {parseLocation, fetchWeather} from './api.js';
 import {loadUI} from './ui.js'
 

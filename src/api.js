@@ -9,10 +9,10 @@ function parseLocation (input) {
 
     let firstFive = location.substring(0, 5);
      if (/^\d+$/.test(firstFive)) {
-         return firstFive               //zip code return
+         return 'zip=' + firstFive               //zip code return
     }
 
-    return location                        //formatted string return
+    return 'q=' + location                        //formatted string return
 }
 
 async function fetchWeather(input) {
@@ -20,7 +20,7 @@ async function fetchWeather(input) {
 
     let location = parseLocation(input);
 
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`
+    const url = `http://api.openweathermap.org/data/2.5/weather?${location}&appid=${key}`
     const response = await fetch(url, {mode: 'cors'});
     const data = await response.json();
 
@@ -90,5 +90,6 @@ export {
     translateData,
     fetchWeather,
     toggleUnits,
+    metric,
     Weather
 };

@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^17.0.5",
     "css-loader": "^6.5.1",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
@@ -19,6 +20,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "dateformat": "^5.0.2"
+    "dateformat": "^5.0.2",
+    "path-browserify": "^1.0.1"
   }
 }
