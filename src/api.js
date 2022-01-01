@@ -29,11 +29,15 @@ async function fetchWeather(input) {
 
 function translateData(data) {
 
-    let name = data.name;
-    let main = data.weather[0].description;
+    let name = data.name + ', ' + data.sys.country;
+    let main = capitalize(data.weather[0].description);
+    let icon = data.weather[0].icon;
     let humidity = data.main.humidity;
-    let sunrise = data.sys.sunrise;
-    let sunset = data.sys.sunset;
+    let timezone = data.timezone;
+        let today = new Date;
+        let offset = today.getTimezoneOffset() * 60;
+    let sunrise = data.sys.sunrise + timezone + offset;
+    let sunset = data.sys.sunset + timezone + offset;
     let temp, min, max, feels, wind;
 
     if (metric) {
@@ -52,12 +56,13 @@ function translateData(data) {
     }
     
     
-    return new Weather(name, main, temp, min, max, feels, humidity, wind, sunrise, sunset);
+    return new Weather(name, main, icon, temp, min, max, feels, humidity, wind, sunrise, sunset, timezone);
 }
 
-function Weather(name, main, temp, min, max, feels, humidity, wind, sunrise, sunset) {
+function Weather(name, main, icon, temp, min, max, feels, humidity, wind, sunrise, sunset, timezone) {
     this.name = name;
     this.main = main;
+    this.icon = icon;
     this.temp = temp;
     this.min = min;
     this.max = max;
@@ -66,6 +71,7 @@ function Weather(name, main, temp, min, max, feels, humidity, wind, sunrise, sun
     this.wind = wind;
     this.sunrise = sunrise;
     this.sunset = sunset;
+    this.timezone = timezone;
 }
 
 function fTemp(kTemp) {
@@ -88,6 +94,24 @@ function toKph(speed) {
 function toggleUnits() {
     metric = !metric
 }
+
+function capitalize(str) {
+
+    str = str.trim();
+
+    let capitalized = str.charAt(0).toUpperCase();
+
+    for (let i=1; i<str.length; ++i){
+        capitalized += str.charAt(i);
+        if (str.charAt(i) === ' ') {
+            capitalized += str.charAt(i+1).toUpperCase();
+            ++i       
+        }
+    }
+
+    return capitalized;
+}
+
 
 export {
     parseLocation,

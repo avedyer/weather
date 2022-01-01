@@ -71,9 +71,16 @@ async function displayWeather (input) {
     const weatherDisplay = document.createElement('div');
         weatherDisplay.id = 'weather'
 
-        const name = document.createElement('h1');
-            name.classList.add('name');
-            name.innerHTML = weather.name
+        const header = document.createElement('div');
+
+            const name = document.createElement('h1');
+                name.classList.add('name');
+                name.innerHTML = weather.name
+
+            const icon = document.createElement('img');
+                icon.src = 'http://openweathermap.org/img/wn/' + weather.icon + '@2x.png';
+
+            header.append(name, icon);
 
         const description = document.createElement('h2');
             description.classList.add('description');
@@ -154,11 +161,11 @@ async function displayWeather (input) {
                     let sunsetDate = new Date(weather.sunset * 1000);
                     sunset.innerHTML = sunsetDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
-                sunsetRow.append(sunriseLabel, sunrise);
+                sunsetRow.append(sunsetLabel, sunset);
 
             dataTable.append(hiRow, loRow, feelsRow, humidityRow, windRow, sunriseRow, sunsetRow);
 
-        weatherDisplay.append(name, description, mainTemp, dataTable);
+        weatherDisplay.append(header, description, mainTemp, dataTable);
 
     body.append(weatherDisplay);
 }
