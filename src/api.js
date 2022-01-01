@@ -32,6 +32,8 @@ function translateData(data) {
     let name = data.name;
     let main = data.weather[0].description;
     let humidity = data.main.humidity;
+    let sunrise = data.sys.sunrise;
+    let sunset = data.sys.sunset;
     let temp, min, max, feels, wind;
 
     if (metric) {
@@ -50,10 +52,10 @@ function translateData(data) {
     }
     
     
-    return new Weather(name, main, temp, min, max, feels, humidity, wind);
+    return new Weather(name, main, temp, min, max, feels, humidity, wind, sunrise, sunset);
 }
 
-function Weather(name, main, temp, min, max, feels, humidity, wind) {
+function Weather(name, main, temp, min, max, feels, humidity, wind, sunrise, sunset) {
     this.name = name;
     this.main = main;
     this.temp = temp;
@@ -62,6 +64,8 @@ function Weather(name, main, temp, min, max, feels, humidity, wind) {
     this.feels = feels;
     this.humidity = humidity;
     this.wind = wind;
+    this.sunrise = sunrise;
+    this.sunset = sunset;
 }
 
 function fTemp(kTemp) {

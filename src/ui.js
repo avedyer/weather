@@ -1,7 +1,10 @@
 import {metric, parseLocation, fetchWeather, toggleUnits, Weather} from './api.js';
 
 const body = document.querySelector('body');
-let currLocation = 'Los Angeles';
+let initialLocations = ['Los Angeles', 'Tokyo', 'Sydney', 'Moscow', 'Barcelona', 'New Delhi', 'Beijing', 'Johannesburg', 'Cairo', 'Tehran', 'Buenos Aires', 'Havana', 'New York', 'Dallas'];
+
+let currLocation = initialLocations[(Math.floor(Math.random() * initialLocations.length))];
+
 
 function loadUI () {
     const locationForm = document.createElement('div');
@@ -50,6 +53,7 @@ function loadUI () {
 
 
     body.append(locationForm, unitContainer);
+    
     displayWeather(currLocation);
 }
 
@@ -79,27 +83,82 @@ async function displayWeather (input) {
             mainTemp.classList.add('temp');
             mainTemp.innerHTML = weather.temp + '°';
 
-        const feelsTemp = document.createElement('h4');
+        const dataTable = document.createElement('table');
 
-        const tempRangeContainer = document.createElement('div');
+            const hiRow = document.createElement('tr');
+                
+                const hiLabel = document.createElement('td');
+                    hiLabel.innerHTML = 'High:';
+                const hiTemp = document.createElement('td');
+                    hiTemp.innerHTML = weather.max + '°';
+                
+                hiRow.append(hiLabel, hiTemp);
+            
+            const loRow = document.createElement('tr');
+                
+                const loLabel = document.createElement('td');
+                    loLabel.innerHTML = 'Low:';
+                const loTemp = document.createElement('td');
+                    loTemp.innerHTML = weather.min + '°';
+                
+                loRow.append(loLabel, loTemp);
 
-            const hiTemp = document.createElement('h4');
-                hiTemp.innerHTML = 'High:' + weather.max + '°';
-            const loTemp = document.createElement('h4');
-                loTemp.innerHTML = 'Low: ' + weather.min + '°';
+        
+            const feelsRow = document.createElement('tr');
+                
+                const feelsLabel = document.createElement('td');
+                    feelsLabel.innerHTML = 'Feels Like:';
+                const feelsTemp = document.createElement('td');
+                    feelsTemp.innerHTML = weather.feels + '°';
+                
+                feelsRow.append(feelsLabel, feelsTemp);
 
-            tempRangeContainer.append(hiTemp, loTemp);
 
-        const humidity = document.createElement('h4');
-            humidity.classList.add('humidity');
-            humidity.innerHTML = 'Humidity: ' + weather.humidity + '%';
+            const humidityRow = document.createElement('tr');
 
-        const wind = document.createElement('h4');
-            wind.classList.add('wind');
-            wind.innerHTML = 'Wind: ' + weather.wind;
-            metric ? wind.innerHTML += 'kph' : wind.innerHTML += 'mph'
+                const humidityLabel = document.createElement('td');
+                    humidityLabel.innerHTML = 'Humidity:';
+                const humidity = document.createElement('td');
+                    humidity.innerHTML = weather.humidity;
 
-        weatherDisplay.append(name, description, mainTemp, feelsTemp, tempRangeContainer, humidity, wind);
+                humidityRow.append(humidityLabel, humidity);
+
+            const windRow = document.createElement('tr');
+
+                const windLabel = document.createElement('td');
+                    windLabel.innerHTML = 'Wind:';
+                const wind = document.createElement('td');
+                    wind.innerHTML = weather.wind;
+                    metric ? wind.innerHTML += 'kph' : wind.innerHTML += 'mph'
+
+                windRow.append(windLabel, wind);
+
+
+            const sunriseRow = document.createElement('tr');
+
+                const sunriseLabel = document.createElement('td');
+                    sunriseLabel.innerHTML = 'Sunrise:'
+
+                const sunrise = document.createElement('td');                
+                    let sunriseDate = new Date(weather.sunrise * 1000);
+                    sunrise.innerHTML = sunriseDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+                sunriseRow.append(sunriseLabel, sunrise);
+
+            const sunsetRow = document.createElement('tr');
+
+                const sunsetLabel = document.createElement('td');
+                    sunsetLabel.innerHTML = 'Sunset:'
+
+                const sunset = document.createElement('td');                
+                    let sunsetDate = new Date(weather.sunset * 1000);
+                    sunset.innerHTML = sunsetDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+                sunsetRow.append(sunriseLabel, sunrise);
+
+            dataTable.append(hiRow, loRow, feelsRow, humidityRow, windRow, sunriseRow, sunsetRow);
+
+        weatherDisplay.append(name, description, mainTemp, dataTable);
 
     body.append(weatherDisplay);
 }
