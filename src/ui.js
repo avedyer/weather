@@ -1,12 +1,22 @@
-import {metric, parseLocation, fetchWeather, toggleUnits, Weather} from './api.js';
+/*
+    This codebase handles all UI functionality, initialized through the loadUI function.
+    The page is loaded with a city chosen at random from a small hardcoded list.
+    Weather info is displayed in one container, which is removed and reloaded upon a new search.
+*/
+
+import {metric, fetchWeather, toggleUnits} from './api.js';
 
 const body = document.querySelector('body');
 let initialLocations = ['Los Angeles', 'Tokyo', 'Sydney', 'Moscow', 'Barcelona', 'New Delhi', 'Beijing', 'Johannesburg', 'Cairo', 'Tehran', 'Buenos Aires', 'Havana', 'New York', 'Dallas'];
 
 let currLocation = initialLocations[(Math.floor(Math.random() * initialLocations.length))];
 
-
 function loadUI () {
+
+    // UI is split into three sections: 
+    //Top section with a search form and unit switching.
+    //Main section with weather info.
+    //Bottom section for decorative animation.
 
     const topThird = document.createElement('div');
         topThird.classList.add('top');
@@ -38,6 +48,8 @@ function loadUI () {
             });
 
             locationForm.append(searchbar, searchBtn, searchErr);
+
+        //Toggle switch style unit selector
         
         const unitContainer = document.createElement('div');
             unitContainer.classList.add('unitContainer');
@@ -67,7 +79,7 @@ function loadUI () {
 
             unitContainer.append(unitSwitch, unitLabel);
         
-            topThird.append(locationForm, unitContainer)
+        topThird.append(locationForm, unitContainer)
 
     const bottomAnimation = document.createElement('div');
             bottomAnimation.classList.add('bottom');
@@ -80,6 +92,10 @@ function loadUI () {
 
 
 async function displayWeather (input) {
+
+    //Create a container for all weather info, based on a custom weather object with data fetched from API.
+
+    //Clean up page for new info
 
     document.getElementById('searchErr').classList.add('invisible');
     
@@ -96,6 +112,13 @@ async function displayWeather (input) {
         body.removeChild(oldWeather);
     }
 
+    //Graphic split into three sections:
+
+    //Topline with name, icon.
+    //Second Line with current temp, description.
+    //Table with tertiary info.
+
+
     const weatherDisplay = document.createElement('div');
         weatherDisplay.classList.add('weather');
 
@@ -110,6 +133,7 @@ async function displayWeather (input) {
                 icon.src = 'https://openweathermap.org/img/wn/' + weather.icon + '@4x.png';
 
             topline.append(name, icon);
+            
 
         const secondline = document.createElement('div');
             secondline.classList.add('secondline');
@@ -123,6 +147,7 @@ async function displayWeather (input) {
                 mainTemp.innerHTML = weather.temp + '°';
 
             secondline.append(mainTemp, description);
+        
 
         const dataTable = document.createElement('table');
 
@@ -205,6 +230,10 @@ async function displayWeather (input) {
 }
 
 function animateDots (el) {
+
+    //Generates, appends, and removes blank div elements with dot class on random interval.
+    //All stylization in CSS
+
     setInterval(() => {
 
         const dot = document.createElement('div');

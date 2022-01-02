@@ -3,20 +3,24 @@ let metric = true;
 
 
 function parseLocation (input) {
-    //TODO parse form input into format useable for API
+
+    //Parses search term into useable format for API
+
     let location = input.trim();
     location = input.replace(' ', '+')
 
     let firstFive = location.substring(0, 5);
      if (/^\d+$/.test(firstFive)) {
-         return 'zip=' + firstFive               //zip code return
+         return 'zip=' + firstFive               //Zip code return
     }
 
-    return 'q=' + location                        //formatted string return
+    return 'q=' + location                        //Formatted string return
 }
 
 async function fetchWeather(input) {
-    //TODO return current data
+
+    //Returns current data in raw JSON format
+    //Return false if fetch throws an error.
 
     let location = parseLocation(input);
 
@@ -35,6 +39,8 @@ async function fetchWeather(input) {
 }
 
 function translateData(data) {
+
+    //Translate JSON data into custom formats, then return a new custom Weather object.
 
     let name = data.name + ', ' + data.sys.country;
     let main = capitalize(data.weather[0].description);
@@ -81,6 +87,8 @@ function Weather(name, main, icon, temp, min, max, feels, humidity, wind, sunris
     this.timezone = timezone;
 }
 
+//Functions to translate between units
+
 function fTemp(kTemp) {
     let fTemp = 9 / 5 * (kTemp - 273) + 32 
     return Math.round(fTemp);
@@ -103,6 +111,8 @@ function toggleUnits() {
 }
 
 function capitalize(str) {
+
+    //Capitalizes first letter of each word of a string. For use on city names.
 
     str = str.trim();
 
