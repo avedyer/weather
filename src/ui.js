@@ -7,67 +7,73 @@ let currLocation = initialLocations[(Math.floor(Math.random() * initialLocations
 
 
 function loadUI () {
-    const locationForm = document.createElement('div');
-        locationForm.classList.add('locationForm');
 
-        const searchbar = document.createElement('input');
-            searchbar.setAttribute('type', 'text');
+    const topThird = document.createElement('div');
+        topThird.classList.add('top');
 
-        const searchBtn = document.createElement('button');
-            searchBtn.setAttribute('type', 'button');
-            searchBtn.innerHTML = 'Search';
+        const locationForm = document.createElement('div');
+            locationForm.classList.add('locationForm');
 
-        const searchErr = document.createElement('h4');
-            searchErr.id = ('searchErr');
-            searchErr.classList.add('invisible');
-            searchErr.innerHTML = 'City not found.'
+            const searchbar = document.createElement('input');
+                searchbar.setAttribute('type', 'text');
 
-        searchBtn.onclick = () => {
-            currLocation = searchbar.value;
-            displayWeather(currLocation);
-        };
-        searchbar.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            const searchBtn = document.createElement('button');
+                searchBtn.setAttribute('type', 'button');
+                searchBtn.innerHTML = 'Search';
+
+            const searchErr = document.createElement('h4');
+                searchErr.id = ('searchErr');
+                searchErr.classList.add('invisible');
+                searchErr.innerHTML = 'City not found.'
+
+            searchBtn.onclick = () => {
                 currLocation = searchbar.value;
                 displayWeather(currLocation);
-            }
-        });
-
-        locationForm.append(searchbar, searchBtn, searchErr);
-    
-    const unitContainer = document.createElement('div');
-        unitContainer.classList.add('unitContainer');
-
-        const unitSwitch = document.createElement('label');
-            unitSwitch.classList.add('switch');
-            
-            const unitCheck = document.createElement('input');
-                unitCheck.setAttribute('type', 'checkbox');
-                unitCheck.onclick = () => {
-                    toggleUnits();
-                    unitLabel.innerHTML === 'Metric' ? unitLabel.innerHTML = 'Imperial' : unitLabel.innerHTML = 'Metric';
+            };
+            searchbar.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    currLocation = searchbar.value;
                     displayWeather(currLocation);
-                };
+                }
+            });
 
-            const span = document.createElement('span');
-                span.classList.add('slider', 'round');
-            
-            unitSwitch.append(
-                unitCheck,
-                span
-            );
+            locationForm.append(searchbar, searchBtn, searchErr);
         
-        const unitLabel = document.createElement('h4');
-                unitLabel.id = 'unitLabel';
-                unitLabel.innerHTML = 'Metric';
+        const unitContainer = document.createElement('div');
+            unitContainer.classList.add('unitContainer');
 
-        unitContainer.append(unitSwitch, unitLabel);
+            const unitSwitch = document.createElement('label');
+                unitSwitch.classList.add('switch');
+                
+                const unitCheck = document.createElement('input');
+                    unitCheck.setAttribute('type', 'checkbox');
+                    unitCheck.onclick = () => {
+                        toggleUnits();
+                        unitLabel.innerHTML === 'Metric' ? unitLabel.innerHTML = 'Imperial' : unitLabel.innerHTML = 'Metric';
+                        displayWeather(currLocation);
+                    };
+
+                const span = document.createElement('span');
+                    span.classList.add('slider', 'round');
+                
+                unitSwitch.append(
+                    unitCheck,
+                    span
+                );
+            
+            const unitLabel = document.createElement('h4');
+                    unitLabel.id = 'unitLabel';
+                    unitLabel.innerHTML = 'Metric';
+
+            unitContainer.append(unitSwitch, unitLabel);
+        
+            topThird.append(locationForm, unitContainer)
 
     const bottomAnimation = document.createElement('div');
             bottomAnimation.classList.add('bottom');
             animateDots(bottomAnimation);
 
-    body.append(locationForm, unitContainer, bottomAnimation);
+    body.append(topThird, bottomAnimation);
     
     displayWeather(currLocation);
 }
@@ -213,11 +219,6 @@ function animateDots (el) {
             }, 3000)
 
     }, Math.random() * 200);
-}
-
-async function logWeather(input) {
-    let weather = await fetchWeather(input);
-    console.log(weather);
 }
 
 export {
