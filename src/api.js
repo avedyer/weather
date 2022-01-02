@@ -20,7 +20,7 @@ async function fetchWeather(input) {
 
     let location = parseLocation(input);
 
-    const url = `http://api.openweathermap.org/data/2.5/weather?${location}&appid=${key}`
+    const url = `https://api.openweathermap.org/data/2.5/weather?${location}&appid=${key}`
 
     try {
         const response = await fetch(url, {mode: 'cors'});

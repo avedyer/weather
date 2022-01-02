@@ -107,7 +107,7 @@ async function displayWeather (input) {
                 name.innerHTML = weather.name
 
             const icon = document.createElement('img');
-                icon.src = 'http://openweathermap.org/img/wn/' + weather.icon + '@4x.png';
+                icon.src = 'https://openweathermap.org/img/wn/' + weather.icon + '@4x.png';
 
             topline.append(name, icon);
 
