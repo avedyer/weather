@@ -8,6 +8,7 @@ let currLocation = initialLocations[(Math.floor(Math.random() * initialLocations
 
 function loadUI () {
     const locationForm = document.createElement('div');
+        locationForm.classList.add('locationForm');
 
         const searchbar = document.createElement('input');
             searchbar.setAttribute('type', 'text');
@@ -15,6 +16,11 @@ function loadUI () {
         const searchBtn = document.createElement('button');
             searchBtn.setAttribute('type', 'button');
             searchBtn.innerHTML = 'Search';
+
+        const searchErr = document.createElement('h4');
+            searchErr.id = ('searchErr');
+            searchErr.classList.add('invisible');
+            searchErr.innerHTML = 'City not found.'
 
         searchBtn.onclick = () => {
             currLocation = searchbar.value;
@@ -27,11 +33,13 @@ function loadUI () {
             }
         });
 
-        locationForm.append(searchbar, searchBtn);
+        locationForm.append(searchbar, searchBtn, searchErr);
     
     const unitContainer = document.createElement('div');
+        unitContainer.classList.add('unitContainer');
+
         const unitSwitch = document.createElement('label');
-            unitSwitch.id = 'unitSwitch';
+            unitSwitch.classList.add('switch');
             
             const unitCheck = document.createElement('input');
                 unitCheck.setAttribute('type', 'checkbox');
@@ -40,55 +48,75 @@ function loadUI () {
                     unitLabel.innerHTML === 'Metric' ? unitLabel.innerHTML = 'Imperial' : unitLabel.innerHTML = 'Metric';
                     displayWeather(currLocation);
                 };
+
+            const span = document.createElement('span');
+                span.classList.add('slider', 'round');
             
             unitSwitch.append(
                 unitCheck,
-                document.createElement('span')
+                span
             );
         
-        const unitLabel = document.createElement('span');
+        const unitLabel = document.createElement('h4');
+                unitLabel.id = 'unitLabel';
                 unitLabel.innerHTML = 'Metric';
 
         unitContainer.append(unitSwitch, unitLabel);
 
+    const bottomAnimation = document.createElement('div');
+            bottomAnimation.classList.add('bottom');
+            animateDots(bottomAnimation);
 
-    body.append(locationForm, unitContainer);
+    body.append(locationForm, unitContainer, bottomAnimation);
     
     displayWeather(currLocation);
 }
 
 
 async function displayWeather (input) {
-    
-    let weather = await fetchWeather(input)
 
-    let oldWeather = document.getElementById('weather');
+    document.getElementById('searchErr').classList.add('invisible');
+    
+    let weather = await fetchWeather(input);
+
+    if (!weather) {
+        document.getElementById('searchErr').classList.remove('invisible');
+        return false
+    }
+
+    let oldWeather = document.querySelector('.weather');
 
     if (oldWeather) {
         body.removeChild(oldWeather);
     }
 
     const weatherDisplay = document.createElement('div');
-        weatherDisplay.id = 'weather'
+        weatherDisplay.classList.add('weather');
 
-        const header = document.createElement('div');
+        const topline = document.createElement('div');
+            topline.classList.add('topline');
 
             const name = document.createElement('h1');
                 name.classList.add('name');
                 name.innerHTML = weather.name
 
             const icon = document.createElement('img');
-                icon.src = 'http://openweathermap.org/img/wn/' + weather.icon + '@2x.png';
+                icon.src = 'http://openweathermap.org/img/wn/' + weather.icon + '@4x.png';
 
-            header.append(name, icon);
+            topline.append(name, icon);
 
-        const description = document.createElement('h2');
-            description.classList.add('description');
-            description.innerHTML = weather.main;
+        const secondline = document.createElement('div');
+            secondline.classList.add('secondline');
 
-        const mainTemp = document.createElement('h3');
-            mainTemp.classList.add('temp');
-            mainTemp.innerHTML = weather.temp + '°';
+            const description = document.createElement('h2');
+                description.classList.add('description');
+                description.innerHTML = weather.main;
+
+            const mainTemp = document.createElement('h2');
+                mainTemp.classList.add('temp');
+                mainTemp.innerHTML = weather.temp + '°';
+
+            secondline.append(mainTemp, description);
 
         const dataTable = document.createElement('table');
 
@@ -165,11 +193,27 @@ async function displayWeather (input) {
 
             dataTable.append(hiRow, loRow, feelsRow, humidityRow, windRow, sunriseRow, sunsetRow);
 
-        weatherDisplay.append(header, description, mainTemp, dataTable);
+        weatherDisplay.append(topline, secondline, dataTable);
 
     body.append(weatherDisplay);
 }
 
+function animateDots (el) {
+    setInterval(() => {
+
+        const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.style.left = (Math.random() * 100).toString() + '%';
+            dot.style.bottom = (Math.random() * 100).toString() + '%';
+
+            el.append(dot);
+
+            setTimeout(() => {
+                el.removeChild(dot)
+            }, 3000)
+
+    }, Math.random() * 200);
+}
 
 async function logWeather(input) {
     let weather = await fetchWeather(input);

@@ -21,10 +21,17 @@ async function fetchWeather(input) {
     let location = parseLocation(input);
 
     const url = `http://api.openweathermap.org/data/2.5/weather?${location}&appid=${key}`
-    const response = await fetch(url, {mode: 'cors'});
-    const data = await response.json();
 
-    return translateData(data);
+    try {
+        const response = await fetch(url, {mode: 'cors'});
+        const data = await response.json();
+        return translateData(data);
+    }
+
+    catch(err) {
+        console.log(err);
+        return false
+    }
 }
 
 function translateData(data) {

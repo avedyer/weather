@@ -1,0 +1,211 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    padding: 92px 384px 92px 256px;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: white;
+    background-color: 	hsl(210, 15%, 25%);
+}
+
+h1 {
+    font-size: 64px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h4 {
+    font-style: normal;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+input[type=text] {
+    font-size: 24px;
+    border: none;
+    border-bottom: 1px solid grey;
+    padding: 0.2em;
+    margin-right: 8px;
+}
+
+input[type=text]:focus-visible {
+    outline: none;
+}
+
+button {
+    font-size: 24px;
+    height: 36px;
+    border: none;
+}
+
+#searchErr {
+    font-style: italic;
+    color: hsl(0, 0%, 90%)
+}
+
+.invisible {
+    display: none;
+}
+
+.unitContainer {
+    float: right;
+    margin-bottom: 0;
+    width: 128px;
+}
+
+#unitLabel {
+    margin-top: 8px; 
+    font-style: italic;   
+}
+
+.locationForm {
+    display: inline-block;
+    height: 128px;
+}
+
+.weather {
+    width: 1028px;
+    margin-left: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 48px;
+    border-bottom: 2px solid lightgray;
+}
+
+.secondline {
+    width: 512px;
+    display: inline-block;
+}
+
+.topline img {
+    width: 256px;
+    height: 256px;
+}
+
+.weather table {
+    float: right;
+    width: 256px;
+}
+
+.weather table * {
+    font-size: 24px;
+}
+
+.weather table tr {
+    height: 2em;
+}
+
+.weather table tr td:nth-child(2) {
+    text-align: right;
+}
+
+.bottom {
+    position: absolute;
+    width: 100vw;
+    height: 200px;
+    bottom: 0;
+    left: 0;
+}
+
+.dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: white;
+    border-radius: 50%;
+    animation-name: slide-fade;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slide-fade {
+    from {
+        opacity: 0;
+        transform: translateY(0);
+    }    
+
+    75% {
+        opacity: 0.8;
+        transform: translateY(-40px);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-48px);
+    }
+}
+
+ /* The switch - the box around the slider */
+ .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .2s;
+    transition: .2s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  } 

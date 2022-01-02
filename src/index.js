@@ -1,6 +1,8 @@
 import {parseLocation, fetchWeather} from './api.js';
 import {loadUI} from './ui.js'
 
+import './styles.css'
+
 //TESTING
 
 console.log('mic check');
